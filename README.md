@@ -48,7 +48,7 @@ curl http://localhost:3001/health
 | Variable | Requerida | Descripción |
 |---|---|---|
 | `VOCAL_BRIDGE_API_KEY` | ✅ | API key del agente Cafelito (desde el dashboard VocalBridge) |
-| `VOCAL_BRIDGE_TOKEN_URL` | ❌ | URL del endpoint de tokens (default: `http://vocalbridgeai.com/api/v1/token`) |
+| `VOCAL_BRIDGE_TOKEN_URL` | ❌ | URL del endpoint de tokens (default: `https://vocalbridgeai.com/api/v1/token`) |
 | `PORT` | ❌ | Puerto del servidor (default: `3001`) |
 | `NODE_ENV` | ❌ | `development` / `production` |
 | `ALLOWED_ORIGINS` | ✅ | Orígenes CORS permitidos, separados por coma |

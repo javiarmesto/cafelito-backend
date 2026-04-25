@@ -56,7 +56,7 @@ app.get('/health', (req, res) => {
     env:     ENV,
     time:    new Date().toISOString(),
     config: {
-      vocalbridge_url:    process.env.VOCAL_BRIDGE_TOKEN_URL || 'http://vocalbridgeai.com/api/v1/token',
+      vocalbridge_url:    process.env.VOCAL_BRIDGE_TOKEN_URL || 'https://vocalbridgeai.com/api/v1/token',
       api_key_set:        !!process.env.VOCAL_BRIDGE_API_KEY,
       allowed_origins:    allowedOrigins,
     },

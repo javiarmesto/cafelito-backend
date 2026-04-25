@@ -5,7 +5,7 @@
 // in-memory session tracking
 // ─────────────────────────────────────────────
 
-const TOKEN_URL = process.env.VOCAL_BRIDGE_TOKEN_URL || 'http://vocalbridgeai.com/api/v1/token'
+const TOKEN_URL = process.env.VOCAL_BRIDGE_TOKEN_URL || 'https://vocalbridgeai.com/api/v1/token'
 const API_KEY   = process.env.VOCAL_BRIDGE_API_KEY
 
 // Simple in-memory session store

@@ -18,7 +18,7 @@ Proyecto desarrollado por **Javier Armesto** (VS Sistemas) como showcase demo de
 | Framework | Express 4 |
 | CORS | `cors` package — whitelist por `ALLOWED_ORIGINS` |
 | Rate limiting | `express-rate-limit` — 20 req/min por IP en `/api/voice-token` |
-| Upstream | VocalBridge API v1 (`http://vocalbridgeai.com/api/v1/token`) |
+| Upstream | VocalBridge API v1 (`https://vocalbridgeai.com/api/v1/token`) |
 | Session store | In-memory `Map` con auto-limpieza (swap a Redis si necesitas multi-instancia) |
 
 ---
@@ -72,7 +72,7 @@ Lista sesiones activas. Requiere `Authorization: Bearer <SESSIONS_SECRET>` en pr
 
 ```bash
 VOCAL_BRIDGE_API_KEY=vb_...        # ← REQUERIDA. API key agente Cafelito (del dashboard VocalBridge)
-VOCAL_BRIDGE_TOKEN_URL=http://vocalbridgeai.com/api/v1/token  # default OK
+VOCAL_BRIDGE_TOKEN_URL=https://vocalbridgeai.com/api/v1/token  # default OK (must be https — http redirects 301 and breaks POST)
 PORT=3001
 NODE_ENV=development
 ALLOWED_ORIGINS=http://localhost:5173,http://localhost:3000
@@ -102,7 +102,7 @@ Si aparece `✗ MISSING` en API key → revisar `.env`.
 
 ## VocalBridge — referencia API
 
-- **Token endpoint**: `POST http://vocalbridgeai.com/api/v1/token`
+- **Token endpoint**: `POST https://vocalbridgeai.com/api/v1/token`
 - **Headers**: `X-API-Key`, `Content-Type: application/json`
 - **Body**: `{ "participant_name": "string" }`
 - **Token lifetime**: 3600 segundos (1 hora)
