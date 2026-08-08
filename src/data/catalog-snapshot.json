@@ -1,0 +1,22 @@
+{
+  "source": "ATICO MCP get-items (prefijo W) — snapshot manual",
+  "generated_at": "2026-08-08T09:40:00Z",
+  "items": [
+    { "number": "WRB-1000", "name": "Whole Roasted Beans, Colombia",   "price": 17.50,  "stock": 50 },
+    { "number": "WRB-1001", "name": "Whole Roasted Beans, Brazil",     "price": 18.50,  "stock": 200 },
+    { "number": "WRB-1002", "name": "Whole Roasted Beans, Indonesia",  "price": 15.00,  "stock": 0 },
+    { "number": "WRB-1003", "name": "Whole Roasted Beans, Mexico",     "price": 180.00, "stock": 50 },
+    { "number": "WRB-1004", "name": "Whole Roasted Beans, Kenya",      "price": 22.00,  "stock": 200 },
+    { "number": "WRB-1005", "name": "Whole Roasted Beans, COSTA RICA", "price": 180.00, "stock": 200 },
+    { "number": "WRB-1006", "name": "Whole Roasted Beans, ETHIOPIA",   "price": 21.00,  "stock": 100 },
+    { "number": "WRB-1007", "name": "Whole Roasted Beans, HAWAII",     "price": 34.00,  "stock": 100 },
+    { "number": "WDB-1000", "name": "Whole Decaf Beans, Colombia",     "price": 180.00, "stock": 47 },
+    { "number": "WDB-1001", "name": "Whole Decaf Beans, Brazil",       "price": 210.00, "stock": 50 },
+    { "number": "WDB-1002", "name": "Whole Decaf Beans, Indonesia",    "price": 210.00, "stock": 0 },
+    { "number": "WDB-1003", "name": "Whole Decaf Beans, Mexico",       "price": 210.00, "stock": 25 },
+    { "number": "WDB-1004", "name": "Whole Decaf Beans, Kenya",        "price": 210.00, "stock": 50 },
+    { "number": "WDB-1005", "name": "Whole Decaf Beans, Costa Rica",   "price": 210.00, "stock": 50 },
+    { "number": "WDB-1006", "name": "Whole Decaf Beans, Ethiopia",     "price": 210.00, "stock": 40 },
+    { "number": "WDB-1007", "name": "Whole Decaf Beans, Hawaii",       "price": 210.00, "stock": 15 }
+  ]
+}

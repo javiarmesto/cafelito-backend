@@ -11,6 +11,7 @@ import { rateLimit }    from 'express-rate-limit'
 import tokenRouter      from './routes/token.js'
 import sessionsRouter   from './routes/sessions.js'
 import webhooksRouter   from './routes/webhooks.js'
+import catalogRouter    from './routes/catalog.js'
 
 const app  = express()
 const PORT = process.env.PORT || 3001
@@ -53,6 +54,7 @@ const tokenLimiter = rateLimit({
 app.use('/api/voice-token', tokenLimiter, tokenRouter)
 app.use('/api/sessions',    sessionsRouter)
 app.use('/api/webhooks',    webhooksRouter)
+app.use('/api/catalog',     catalogRouter)
 
 // ── Health check ──────────────────────────────
 app.get('/health', (req, res) => {
