@@ -31,7 +31,10 @@ src/
 ├── routes/
 │   ├── token.js               # POST /api/voice-token
 │   ├── sessions.js            # GET  /api/sessions (debug, protegido)
-│   └── webhooks.js            # POST /api/webhooks/vocalbridge + GET events (debug)
+│   ├── webhooks.js            # POST /api/webhooks/vocalbridge + GET events (debug)
+│   └── catalog.js             # GET  /api/catalog (stock/precios BC para el frontend)
+├── data/
+│   └── catalog-snapshot.json  # Snapshot del catálogo BC (generado desde MCP ATICO get-items)
 ├── services/
 │   ├── vocalbridge.js         # Wrapper VocalBridge API v1 + session store
 │   └── webhooks.js            # Verificación firma HMAC + event store (ring buffer 100)
@@ -91,6 +94,12 @@ curl -X POST http://localhost:3001/api/webhooks/vocalbridge \
 ### `GET /api/webhooks/vocalbridge/events?limit=20`
 Últimos eventos recibidos (máx. 100 en memoria, más reciente primero).
 Mismo guard que `/api/sessions` (`Authorization: Bearer <SESSIONS_SECRET>` en producción).
+
+### `GET /api/catalog`
+Catálogo con stock/precios de Business Central para el frontend (`Cache-Control: max-age=300`).
+Fuente actual: `src/data/catalog-snapshot.json` (generado desde el MCP ATICO con `get-items`).
+Cuando haya credenciales de la API de BC, sustituir `loadCatalog()` en `routes/catalog.js`
+por la llamada real manteniendo el mismo shape.
 
 ---
 
