@@ -10,6 +10,7 @@ import cors             from 'cors'
 import { rateLimit }    from 'express-rate-limit'
 import tokenRouter      from './routes/token.js'
 import sessionsRouter   from './routes/sessions.js'
+import webhooksRouter   from './routes/webhooks.js'
 
 const app  = express()
 const PORT = process.env.PORT || 3001
@@ -31,7 +32,11 @@ app.use(cors({
 }))
 
 // ── Body parser ───────────────────────────────
-app.use(express.json({ limit: '8kb' }))
+// rawBody se conserva para verificar firmas HMAC de webhooks
+app.use(express.json({
+  limit: '64kb',
+  verify: (req, _res, buf) => { req.rawBody = buf },
+}))
 
 // ── Rate limiting ─────────────────────────────
 // Token endpoint: max 20 tokens/minute per IP
@@ -47,6 +52,7 @@ const tokenLimiter = rateLimit({
 // ── Routes ────────────────────────────────────
 app.use('/api/voice-token', tokenLimiter, tokenRouter)
 app.use('/api/sessions',    sessionsRouter)
+app.use('/api/webhooks',    webhooksRouter)
 
 // ── Health check ──────────────────────────────
 app.get('/health', (req, res) => {
@@ -84,5 +90,6 @@ app.listen(PORT, () => {
   console.log(`   → ENV:       ${ENV}`)
   console.log(`   → API key:   ${process.env.VOCAL_BRIDGE_API_KEY ? '✓ set' : '✗ MISSING'}`)
   console.log(`   → Origins:   ${allowedOrigins.join(', ') || '(none — set ALLOWED_ORIGINS)'}`)
+  console.log(`   → Webhooks:  /api/webhooks/vocalbridge ${process.env.VOCAL_BRIDGE_WEBHOOK_SECRET ? '(firma HMAC ✓)' : '(sin firma — dev only)'}`)
   console.log()
 })

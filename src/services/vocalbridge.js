@@ -70,3 +70,16 @@ export function getSessions() {
 export function getSession(roomName) {
   return sessions.get(roomName)
 }
+
+/**
+ * Attach a webhook event to a tracked session (if it exists).
+ * @param {string} roomName
+ * @param {string} eventType
+ */
+export function recordSessionEvent(roomName, eventType) {
+  const session = sessions.get(roomName)
+  if (!session) return
+  session.last_event    = eventType
+  session.last_event_at = new Date().toISOString()
+  session.event_count   = (session.event_count || 0) + 1
+}

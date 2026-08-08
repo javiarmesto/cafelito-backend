@@ -9,25 +9,9 @@
 
 import { Router } from 'express'
 import { getSessions, getSession } from '../services/vocalbridge.js'
+import { requireSecret } from '../middleware/requireSecret.js'
 
 const router = Router()
-
-// Simple bearer-token guard
-function requireSecret(req, res, next) {
-  const secret = process.env.SESSIONS_SECRET
-  if (!secret) {
-    // If no secret configured, block in production
-    if (process.env.NODE_ENV === 'production') {
-      return res.status(403).json({ error: 'Sessions endpoint disabled in production without SESSIONS_SECRET' })
-    }
-    return next()
-  }
-  const auth = req.headers.authorization || ''
-  if (auth !== `Bearer ${secret}`) {
-    return res.status(401).json({ error: 'Unauthorized' })
-  }
-  next()
-}
 
 // GET /api/sessions
 router.get('/', requireSecret, (req, res) => {
