@@ -12,16 +12,9 @@
 // ─────────────────────────────────────────────
 
 import { Router } from 'express'
-import { readFileSync } from 'node:fs'
-import { fileURLToPath } from 'node:url'
-
-const SNAPSHOT_PATH = fileURLToPath(new URL('../data/catalog-snapshot.json', import.meta.url))
+import { loadCatalog } from '../services/catalog.js'
 
 const router = Router()
-
-function loadCatalog() {
-  return JSON.parse(readFileSync(SNAPSHOT_PATH, 'utf8'))
-}
 
 // GET /api/catalog
 router.get('/', (req, res) => {
