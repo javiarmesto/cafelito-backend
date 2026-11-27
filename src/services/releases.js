@@ -36,6 +36,16 @@ export function createReleases(env, request = fetch) {
     return response
   }
 
+  // Keep upstream metadata in the service log, without logging response bodies or credentials.
+  async function upstreamError(response, operation) {
+    const body = await response.json().catch(() => ({}))
+    const code = String(body?.error?.code || '').match(/^[A-Za-z_0-9.]{1,100}$/)?.[0] || 'unknown'
+    const message = String(body?.error?.message || '')
+    const object = message.match(/\b(?:TableData|Table Data|Table|Page|CodeUnit|Query|Field)\s+\d+[\w .-]{0,65}/i)?.[0]
+    const property = message.match(/(?:property|field) (?:named )?'([a-zA-Z0-9_]{1,70})'/i)?.[1]
+    return new Error([operation, response.status, code, object || property].filter(Boolean).join(' '))
+  }
+
   async function collect() {
     let page = new URL(itemsUrl)
     page.searchParams.set('$filter', "itemCategoryCode eq 'CAFELITO' and blocked eq false")
@@ -47,7 +57,7 @@ export function createReleases(env, request = fetch) {
       }
       seen.add(page.href)
       const res = await read(page)
-      if (!res.ok) throw new Error('Business Central items unavailable')
+      if (!res.ok) throw await upstreamError(res, 'Business Central items unavailable')
       const data = await res.json()
       if (!Array.isArray(data.value)) throw new Error('Invalid items response')
       for (const row of data.value) {
@@ -79,7 +89,7 @@ export function createReleases(env, request = fetch) {
     const item = itemsUrl + '(' + id + ')/picture'
     const meta = await read(item)
     if (meta.status === 404 || meta.status === 204) return null
-    if (!meta.ok) throw new Error('Business Central picture unavailable')
+    if (!meta.ok) throw await upstreamError(meta, 'Business Central picture unavailable')
     const data = await meta.json()
     const link = data['pictureContent@odata.mediaReadLink'] || data['content@odata.mediaReadLink']
     if (!link) return null
@@ -90,7 +100,7 @@ export function createReleases(env, request = fetch) {
     }
     const res = await read(url)
     if (res.status === 404 || res.status === 204) return null
-    if (!res.ok) throw new Error('Business Central picture download failed')
+    if (!res.ok) throw await upstreamError(res, 'Business Central picture download failed')
     const contentType = (res.headers.get('content-type') || '').split(';')[0]
     const type = contentType === 'application/octet-stream' ? data.contentType : contentType
     if (!pictureTypes.has(type) || Number(res.headers.get('content-length')) > maxPictureBytes) {
